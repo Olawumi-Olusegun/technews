@@ -1,26 +1,33 @@
-'use client';
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { postsData } from '@/data'
 import Post from '../components/Post'
 import Link from 'next/link'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '../api/auth/[...nextauth]/route';
+import { redirect } from 'next/navigation';
 import { PostProps } from '@/types/post';
 
-export default function Dashboard() {
+export default async function Dashboard() {
 
-    const [posts, setPosts] = useState<PostProps[]>([]);
+    // const [posts, setPosts] = useState<PostProps[]>([]);
 
-    useEffect(() => {
-      setPosts(postsData);
-    }, []);
+    // useEffect(() => {
+    //   setPosts(postsData);
+    // }, []);
 
+        
+    const session = await getServerSession(authOptions);
+    if(!session) {
+        return redirect('/sign-in');
+    }
 
   return (
     <div>
         Dashboard
         <h1>Post</h1>
 
-        { posts && posts?.length > 0 
-          ?  posts?.map((post) => <Post key={post?.id} post={post} />) 
+        { postsData && postsData?.length > 0 
+          ?  postsData?.map((post) => <Post key={post?.id} post={post} />) 
           : <div className='py-6 flex flex-col items-center'>
             <span>No post created yet</span> 
             <Link href={"/post-create"} className='underline'>Create New Post</Link>

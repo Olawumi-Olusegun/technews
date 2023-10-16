@@ -1,12 +1,15 @@
-import React from 'react'
+'use client';
+import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import DeleteBtn from './DeleteBtn';
 import { SinglePostProps } from '@/types/post';
+import { usePathname } from 'next/navigation';
 
 export default function Post({post}: SinglePostProps) {
 
     const isEditable = true;
+    const currentPath = usePathname();
 
   return (
     <div className='my-4 border-b border-b-gray-300 py-8'>
@@ -18,7 +21,7 @@ export default function Post({post}: SinglePostProps) {
         <div className='w-full h-72 relative'>
             {
                 post?.thumbnail 
-                ? <Image src={post?.thumbnail} alt={post?.title} fill className='object-cover rounded-md object-center' /> 
+                ? <Image src={post?.thumbnail} priority alt={post?.title} fill className='object-cover rounded-md object-center' /> 
                 : <Image src={"/thumbnail-placeholder.png"} alt={post?.title} fill className='object-cover rounded-md object-center' />
             }
         </div>
@@ -36,8 +39,8 @@ export default function Post({post}: SinglePostProps) {
         {
             post?.links && <div className='my-4 flex-col gap-3'>
                 <div className='flex space-x-2 items-center'>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
                     </svg>
 
                     {post?.links?.map((link, index) => (
@@ -48,12 +51,12 @@ export default function Post({post}: SinglePostProps) {
         }
 
         {
-            isEditable && (
+            isEditable && currentPath !== '/' ? (
                 <div className='flex gap-3 font-bold py-2 px-4 rounded-md w-fit'>
                     <Link href={`/edit-post/${post?.id} `} className='bg-blue-600 hover:bg-blue-500 transition text-white py-1 px-2 rounded-md'>Edit</Link>
                     <DeleteBtn />
                 </div>
-            )
+            ) : null
         }
 
     </div>
