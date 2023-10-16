@@ -31,7 +31,7 @@ export default function Navbar() {
             <Link href='/' className='hover:translate-x-6 transition'>
                 <h1 className='text-4xl text-dark font-bold tracking-tighter'>Tech News</h1>
             </Link>
-            <p className='text-sm'>Exploring Tomorrow's Innovation, <br/> One Byte at a time </p>
+            <p className='text-sm'>Exploring Tomorrows Innovation, <br/> One Byte at a time </p>
         </div>
         {
           status === 'authenticated' ? (
